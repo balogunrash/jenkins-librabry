@@ -77,41 +77,8 @@ podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate) {
         stage("Pull Repo"){
             cleanWs()
             git url: 'https://github.com/balloray/terraform-vpc.git'
+        }
     }
+}
 
-    withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-        withEnv(["AWS_REGION=${aws_region_var}"]) {
-            container('fuchicorptools') {
-            stage("Terrraform Init"){
-                sh """
-                    bash setenv.sh ${environment}.tfvars
-                    terraform-0.13 init
-                """
-            }        
-            
-            if (terraform_apply.toBoolean()) {
-                stage("Terraform Apply"){
-                    sh """
-                        terraform-0.13 apply -var-file ${environment}.tfvars -auto-approve
-                    """
-                }
-            }
-            else if (terraform_destroy.toBoolean()) {
-                stage("Terraform Destroy"){
-                    sh """
-                        terraform-0.13 destroy -var-file ${environment}.tfvars -auto-approve
-                    """
-                }
-            }
-            else {
-                stage("Terraform Plan"){
-                    sh """
-                        terraform-0.13 plan -var-file ${environment}.tfvars
-                    """
-                }
-            }
-        }        
-    }    
-}
-}
-}
+        
