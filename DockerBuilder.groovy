@@ -3,7 +3,7 @@ def branch = "${scm.branches[0].name}".replaceAll(/^\*\//, '')
 def gitCommitHash = ''
 def environment = ""
 
-if (branch == 'master') {
+if (branch == 'main') {
   println("The application will be desplyed staging envinroment!")
   environment = "stage"
 } 
