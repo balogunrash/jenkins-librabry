@@ -96,17 +96,7 @@ podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate, showRawYaml
                         sh "docker tag artemis balogunrash/artemis:${gitCommitHash}"
                         sh "docker push balogunrash/artemis:${gitCommitHash}"
                     }
-                    stage ('Triger Deploy'){
-
-                      build job: 'artemis-deploy', 
-                      parameters: [
-                        booleanParam(name: 'applyChanges', value: true), 
-                        booleanParam(name: 'destroyChanges', value: false), 
-                        string(name: 'selectedDockerImage', value: "balogunrash/artemis:${gitCommitHash}"), 
-                        string(name: 'environment', value:"${environment}")
-                        ]
-
-                    }
+                    
                 }
             }
         }
