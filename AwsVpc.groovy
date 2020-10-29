@@ -74,16 +74,14 @@ else if(params.environment == "prod"){
 
 podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate) {
     node(k8slabel) {
-        container('fuchicorptools') {
-
-
-    stage("Pull Repo"){
-        cleanWs()
-        git url: 'https://github.com/balloray/terraform-vpc.git'
+        stage("Pull Repo"){
+            cleanWs()
+            git url: 'https://github.com/balloray/terraform-vpc.git'
     }
 
     withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         withEnv(["AWS_REGION=${aws_region_var}"]) {
+            container('fuchicorptools') {
             stage("Terrraform Init"){
                 sh """
                     bash setenv.sh ${environment}.tfvars
