@@ -75,7 +75,6 @@ else if(params.environment == "prod"){
 podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate) {
     node(k8slabel) {
         stage("Pull Repo"){
-            cleanWs()
             git url: 'https://github.com/balloray/terraform-vpc.git'
         }
     }
