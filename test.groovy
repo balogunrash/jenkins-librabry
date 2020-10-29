@@ -54,13 +54,14 @@ def slavePodTemplate = """
               path: /var/run/docker.sock
     """
     
-    podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate) {
-      node(k8slabel) {
+podTemplate(name: k8slabel, label: k8slabel, yaml: slavePodTemplate) {
+    node(k8slabel) {
         stage("Docker check") {
-          container('fuchicorptools') {
-            sh 'docker --version'
-          }
+            container('fuchicorptools') {
+                sh 'docker --version'
+                sh 'terraform version'
+            }
         }
-      }
     }
+}
         
