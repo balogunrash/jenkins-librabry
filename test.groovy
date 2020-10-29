@@ -1,6 +1,3 @@
-//There is a need to create Credentials with type "secret file" for tfvars file with ID "common-tools"
-//There is a need to create Credentials with type "secret file" for ServiceAccount file with ID "common_json"
-
 properties([[$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], pipelineTriggers([cron('H 1 * * *')])])
 
 def k8slabel = "jenkins-pipeline-${UUID.randomUUID().toString()}"
